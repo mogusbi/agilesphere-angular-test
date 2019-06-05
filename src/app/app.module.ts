@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app.routing.module';
 import { WeatherModule } from './weather/weather.module';
-
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -12,9 +14,13 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    WeatherModule
+    StoreModule.forRoot({}),
+    WeatherModule,
+    environment.production ? [] : StoreDevtoolsModule.instrument()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
