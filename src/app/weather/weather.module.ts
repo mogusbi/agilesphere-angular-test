@@ -26,4 +26,4 @@ import { ResultsComponent } from './components/results/results.component';
     WeatherService
   ]
 })
-export class WeatherModule { }
+export class WeatherModule {}
