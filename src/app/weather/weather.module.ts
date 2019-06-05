@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { SearchComponent } from './components/search/search.component';
 import { ResultsComponent } from './components/results/results.component';
@@ -15,6 +16,7 @@ import { WeatherService } from './weather.service';
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     StoreModule.forFeature('weather', weatherReducer)
     // EffectsModule.forFeature(effects)
   ],

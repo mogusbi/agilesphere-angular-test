@@ -1,15 +1,37 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-search',
   templateUrl: './search.component.html'
 })
-export class SearchComponent {
-  // IMPLEMENT ANY INPUT OR OUTPUT YOU MIGHT NEED
+export class SearchComponent implements OnInit {
+  public form: FormGroup;
+  @Output() public search: EventEmitter<string> = new EventEmitter<string>(null);
 
-  constructor() { }
+  public get isInvalid (): boolean {
+    return !this.form.valid;
+  }
 
-  search() {
-    // TO BE IMPLEMENTED
+  constructor (
+    private formBuilder: FormBuilder
+  ) {}
+
+  public ngOnInit (): void {
+    this.createForm();
+  }
+
+  public emitSearch (): void {
+    this.search.emit(this.form.controls.query.value);
+  }
+
+  private createForm (): void {
+    this.form = this.formBuilder.group({
+      query: [
+        null,
+        Validators.required
+      ]
+    });
   }
 }

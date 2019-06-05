@@ -1,33 +1,67 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchComponent } from './search.component';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import Spy = jasmine.Spy;
-
-describe('SearchComponent', () => {
-  let component: SearchComponent;
+describe('SearchComponent', (): void => {
   let fixture: ComponentFixture<SearchComponent>;
+  let instance: SearchComponent;
+  let formBuilder: FormBuilder;
 
-  beforeEach(async(() => {
+  beforeEach((): void => {
     TestBed.configureTestingModule({
-      declarations: [ SearchComponent ],
-      imports: [],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
-  }));
+      declarations: [
+        SearchComponent
+      ],
+      imports: [
+        ReactiveFormsModule
+      ]
+    });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SearchComponent);
-    component = fixture.componentInstance;
+    instance = fixture.componentInstance;
+
+    formBuilder = TestBed.get(FormBuilder);
+
+    spyOn(formBuilder, 'group').and.callThrough();
+    spyOn(instance.search, 'emit').and.stub();
+
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should compile', (): void => {
+    expect(instance).toBeTruthy();
   });
 
-  // IMPLEMENT TESTS HERE
+  it('should have the correct form schema', (): void => {
+    expect(formBuilder.group).toHaveBeenCalledWith({
+      query: [
+        null,
+        Validators.required
+      ]
+    });
+  });
+
+  describe('isInvalid', (): void => {
+    it('should be invalid if query is not input', (): void => {
+      instance.form.controls.query.setValue('');
+
+      expect(instance.isInvalid).toEqual(true);
+    });
+
+    it('should be valid if query is input', (): void => {
+      instance.form.controls.query.setValue('Newcastle');
+
+      expect(instance.isInvalid).toEqual(false);
+    });
+  });
+
+  describe('emitSearch', (): void => {
+    it('should emit with the correct value', (): void => {
+      instance.form.controls.query.setValue('London');
+
+      instance.emitSearch();
+
+      expect(instance.search.emit).toHaveBeenCalledWith('London');
+    });
+  });
 });
