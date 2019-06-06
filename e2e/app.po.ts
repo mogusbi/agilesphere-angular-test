@@ -1,11 +1,23 @@
 import { browser, by, element } from 'protractor';
 
 export class AppPage {
-  navigateTo() {
+  public async navigateTo () {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  public async title () {
+    return element(by.id('title')).getText();
+  }
+
+  public city () {
+    return element(by.id('city'));
+  }
+
+  public search () {
+    return element(by.id('search'));
+  }
+
+  public error () {
+    return element(by.id('error')).getText();
   }
 }
