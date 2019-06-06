@@ -20,11 +20,12 @@ export class ResultsComponent {
   }
 
   public get showResults (): boolean {
-    return this.data.city && this.data.weather.length > 0;
+    return this.data.results.length > 0;
   }
 
-  public getTemperature (time: string): number {
+  public getTemperature (index: number, time: string): number {
     const result = this.data
+      .results[index]
       .weather
       .find(({timestamp}) => moment
         .unix(timestamp)

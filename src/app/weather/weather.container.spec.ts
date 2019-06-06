@@ -56,17 +56,21 @@ describe('WeatherContainer', () => {
     it('should return the weather from the state', (): void => {
       const weather = cold('-a', {
         a: {
-          city: 'Cardiff',
           error: false,
           loading: false,
-          weather: [
+          results: [
             {
-              temperature: 11.24,
-              timestamp: 1559779200
-            },
-            {
-              temperature: 13.58,
-              timestamp: 1559854800
+              city: 'Cardiff',
+              weather: [
+                {
+                  temperature: 11.24,
+                  timestamp: 1559779200
+                },
+                {
+                  temperature: 13.58,
+                  timestamp: 1559854800
+                }
+              ]
             }
           ]
         }

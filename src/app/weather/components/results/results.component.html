@@ -1,26 +1,27 @@
-<ng-container [ngSwitch]="isLoading">
-  <p id="loading" class="h1 text-center" *ngSwitchCase="true">Loading...</p>
+<!-- In a real application the alerts would be in their own standalone component -->
+<div class="alert alert-info" role="alert" *ngIf="isLoading">
+  <p id="loading" class="mb-0">Loading...</p>
+</div>
 
-  <ng-container *ngSwitchDefault>
-    <p id="error" class="h1 text-center" *ngIf="isError">Error, unable to get weather</p>
+<div class="alert alert-danger" role="alert" *ngIf="isError">
+  <p id="error" class="mb-0">Error, unable to get weather</p>
+</div>
 
-    <table class="table" *ngIf="showResults">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">City</th>
-        <ng-container *ngFor="let time of times">
-          <th scope="col" *ngIf="getTemperature(time)">{{ time }}</th>
-        </ng-container>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td scope="row">{{ data.city }}</td>
-        <ng-container *ngFor="let time of times">
-          <th scope="row" *ngIf="getTemperature(time)">{{ getTemperature(time) }} &deg;</th>
-        </ng-container>
-      </tr>
-      </tbody>
-    </table>
-  </ng-container>
-</ng-container>
+<table class="table" *ngIf="showResults">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col">City</th>
+    <ng-container *ngFor="let time of times">
+      <th scope="col">{{ time }}</th>
+    </ng-container>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let result of data.results; let i = index">
+    <td scope="row">{{ result.city }}</td>
+    <ng-container *ngFor="let time of times">
+      <th scope="row">{{ getTemperature(i, time) }} &deg;</th>
+    </ng-container>
+  </tr>
+  </tbody>
+</table>

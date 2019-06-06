@@ -1,23 +1,24 @@
 import { WeatherActions, WeatherActionTypes } from '../actions/weather';
 
 export interface IWeatherState {
-  city: string;
   error: boolean;
   loading: boolean;
-  weather: {
-    temperature: number;
-    timestamp: number;
+  results: {
+    city: string;
+    weather: {
+      temperature: number;
+      timestamp: number;
+    }[];
   }[];
 }
 
 export const initialState: IWeatherState = {
-  city: null,
   error: false,
   loading: false,
-  weather: null
+  results: []
 };
 
-export function weatherReducer (state = initialState, action: WeatherActions) {
+export function weatherReducer (state = initialState, action: WeatherActions): IWeatherState {
   switch (action.type) {
   case WeatherActionTypes.ERROR:
     return {
@@ -27,9 +28,12 @@ export function weatherReducer (state = initialState, action: WeatherActions) {
     };
   case WeatherActionTypes.PERSIST:
     return {
-      city: action.payload.city,
+      ...state,
       loading: false,
-      weather: action.payload.weather
+      results: [
+        ...state.results,
+        action.payload
+      ]
     };
   case WeatherActionTypes.SEARCH:
     return {
