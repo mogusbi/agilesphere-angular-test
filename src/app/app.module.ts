@@ -1,5 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -17,6 +19,8 @@ import { WeatherModule } from './weather';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    EffectsModule.forRoot([]),
+    HttpClientModule,
     StoreModule.forRoot({}),
     WeatherModule,
     environment.production ? [] : StoreDevtoolsModule.instrument()

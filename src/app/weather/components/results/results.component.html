@@ -1,20 +1,26 @@
-<table class="table">
-  <thead class="thead-dark">
-  <tr>
-    <th scope="col">City</th>
-    <th scope="col">6 AM</th>
-    <th scope="col">12 PM</th>
-    <th scope="col">6 PM</th>
-    <th scope="col">12 AM</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td scope="row">London</td>
-    <td scope="row">3 &deg;</td>
-    <td scope="row">12.5 &deg;</td>
-    <td scope="row">9 &deg;</td>
-    <td scope="row">2 &deg;</td>
-  </tr>
-  </tbody>
-</table>
+<ng-container [ngSwitch]="isLoading">
+  <p class="h1 text-center" *ngSwitchCase="true">Loading...</p>
+
+  <ng-container *ngSwitchDefault>
+    <p class="h1 text-center" *ngIf="isError">Error, unable to get weather</p>
+
+    <table class="table" *ngIf="showResults">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">City</th>
+        <ng-container *ngFor="let time of times">
+          <th scope="col" *ngIf="getTemperature(time)">{{ time }}</th>
+        </ng-container>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td scope="row">{{ data.city }}</td>
+        <ng-container *ngFor="let time of times">
+          <th scope="row" *ngIf="getTemperature(time)">{{ getTemperature(time) }} &deg;</th>
+        </ng-container>
+      </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-container>

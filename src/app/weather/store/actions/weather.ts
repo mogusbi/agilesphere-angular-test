@@ -1,8 +1,13 @@
 import { Action } from '@ngrx/store';
 
 export enum WeatherActionTypes {
+  ERROR = '[Weather] Error',
   PERSIST = '[Weather] Persist',
   SEARCH = '[Weather] Search'
+}
+
+export class Error implements Action {
+  public readonly type: WeatherActionTypes.ERROR = WeatherActionTypes.ERROR;
 }
 
 export interface IPersistPayload {
@@ -34,5 +39,6 @@ export class Search implements Action {
 }
 
 export type WeatherActions =
+  | Error
   | Persist
   | Search;

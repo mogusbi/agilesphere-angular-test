@@ -1,7 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
 import { Weather } from '../model';
 
 @Injectable()
@@ -12,26 +11,17 @@ export class WeatherService {
     private httpClient: HttpClient
   ) {}
 
+  /**
+   * Errors are being caught in the Effect rather than doing it upfront in the service
+   * in order to dispatch an error action to show a message to the end user
+   */
   public searchWeatherForCity (city: string): Observable<Weather> {
     const params = this.generateParams(city);
 
     return this.httpClient
       .get(this.url, {
         params
-      })
-      .pipe(
-        catchError(
-          ({message}: HttpErrorResponse) => {
-            /**
-             * A more user friendly approach would be to catch the error in the effect and dispatch a message
-             * action that would display it in app for the user to see.
-             */
-            console.error(message);
-
-            return null;
-          }
-        )
-      );
+      });
   }
 
   private generateParams (q: string) {
